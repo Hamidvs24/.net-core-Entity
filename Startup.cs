@@ -27,6 +27,12 @@ namespace QuotesEntityApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
             services.AddControllers().AddXmlSerializerFormatters();
             services.AddDbContext<QuotesDbContext>(option => option.UseMySQL("server=localhost;userid=root;pwd=mysql;port=3306;database=mysqldb;allowPublicKeyRetrieval=true;sslmode=none;CharSet=utf8"));
         }
@@ -44,6 +50,8 @@ namespace QuotesEntityApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("MyPolicy");
 
             app.UseAuthorization();
 
