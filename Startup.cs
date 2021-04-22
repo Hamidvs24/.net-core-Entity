@@ -45,7 +45,7 @@ namespace QuotesEntityApi
                 app.UseDeveloperExceptionPage();
             }
 
-            dbContext.Database.EnsureCreated();
+            //dbContext.Database.EnsureCreated();
 
             app.UseHttpsRedirection();
 
