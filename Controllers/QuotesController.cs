@@ -41,6 +41,13 @@ namespace QuotesEntityApi.Controllers
             }
         }
 
+        //attribute routing localhost:44349/api/quotes/test/1
+        [HttpGet("[action]/{id}")]
+        public int Test(int id)
+        {
+            return id;
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody]Quote quote)
         {
