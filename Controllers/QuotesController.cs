@@ -20,6 +20,7 @@ namespace QuotesEntityApi.Controllers
             _quotesDbContext = quotesDbContext;
         }
 
+        //sorting
         [HttpGet]
         public IActionResult Get(string sort)
         {
@@ -70,6 +71,14 @@ namespace QuotesEntityApi.Controllers
             var currentPageSize = pageSize ?? 5;
 
             return Ok(quotes.Skip((currentPageNumber - 1) * currentPageSize).Take(currentPageSize));
+        }
+
+        //searching
+        [HttpGet("[action]")]
+        public IActionResult SearchQuote(string type)
+        {
+            var quotes = _quotesDbContext.Quotes.Where(q => q.Type.StartsWith(type));
+            return Ok(quotes);
         }
 
         [HttpPost]
