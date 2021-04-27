@@ -35,6 +35,7 @@ namespace QuotesEntityApi
             }));
             services.AddControllers().AddXmlSerializerFormatters();
             services.AddDbContext<QuotesDbContext>(option => option.UseMySQL("server=localhost;userid=root;pwd=mysql;port=3306;database=mysqldb;allowPublicKeyRetrieval=true;sslmode=none;CharSet=utf8"));
+            services.AddResponseCaching();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +47,7 @@ namespace QuotesEntityApi
             }
 
             //dbContext.Database.EnsureCreated();
+            app.UseResponseCaching();
 
             app.UseHttpsRedirection();
 
