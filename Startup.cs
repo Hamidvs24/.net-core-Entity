@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,6 +37,18 @@ namespace QuotesEntityApi
             services.AddControllers().AddXmlSerializerFormatters();
             services.AddDbContext<QuotesDbContext>(option => option.UseMySQL("server=localhost;userid=root;pwd=mysql;port=3306;database=mysqldb;allowPublicKeyRetrieval=true;sslmode=none;CharSet=utf8"));
             services.AddResponseCaching();
+
+            // Add Authentication Services
+            services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "https://quotes24api.us.auth0.com/";
+                options.Audience = "https://localhost:44349/";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +61,16 @@ namespace QuotesEntityApi
 
             //dbContext.Database.EnsureCreated();
             app.UseResponseCaching();
+
+            // Enable authentication middleware
+            app.UseAuthentication();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                  name: "default",
+                  template: "{controller=Home}/{action=Index}/{id?}");
+            });
 
             app.UseHttpsRedirection();
 

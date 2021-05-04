@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QuotesApi.Models;
 using QuotesEntityApi.Data;
@@ -11,6 +12,7 @@ namespace QuotesEntityApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class QuotesController : ControllerBase
     {
         private QuotesDbContext _quotesDbContext;
