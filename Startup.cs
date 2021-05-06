@@ -35,7 +35,7 @@ namespace QuotesEntityApi
                        .AllowAnyHeader();
             }));
             services.AddControllers().AddXmlSerializerFormatters();
-            services.AddDbContext<QuotesDbContext>(option => option.UseMySQL("server=localhost;userid=root;pwd=mysql;port=3306;database=mysqldb;allowPublicKeyRetrieval=true;sslmode=none;CharSet=utf8"));
+            services.AddDbContext<QuotesDbContext>(option => option.UseMySQL(Configuration.GetConnectionString("MySqlLocalConnection")));
             services.AddResponseCaching();
 
             // Add Authentication Services
